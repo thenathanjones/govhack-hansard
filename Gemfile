@@ -9,4 +9,5 @@ gem 'linguistics'
 gem 'timeliness'
 gem 'pry-debugger'
 
+gem 'json'
 gem 'nokogiri'
