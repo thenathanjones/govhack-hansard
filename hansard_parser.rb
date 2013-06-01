@@ -19,8 +19,9 @@ module HansardParser
           debate = { :date => date, :speeches => [] }
         end
       elsif n.name == 'speech' && n.attribute('nospeaker').nil?
+        speech_id = n.attribute('id').value.split("/").last
         speaker_id = n.attribute('speakerid').value.split("/").last
-        debate[:speeches] << { :speaker_name => n.attribute('speakername').value, :speaker_id => speaker_id, :body => n.text.strip }
+        debate[:speeches] << { :speech_id => speech_id, :speaker_name => n.attribute('speakername').value, :speaker_id => speaker_id, :body => n.text.strip }
       end
     end
     debates
