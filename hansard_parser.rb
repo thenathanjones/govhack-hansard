@@ -13,10 +13,11 @@ module HansardParser
 
     doc.root.children.each do |n|
 
-      if n.name == 'major-heading'
+      if n.name == 'minor-heading'
         unless debate[:speeches].empty?
           debates << debate
-          debate = { :date => date, :speeches => [] }
+          debate_id = n.attribute('id').value.split("/").last
+          debate = { :debate_id => debate_id, :title => n.text.strip, :date => date, :speeches => [] }
         end
       elsif n.name == 'speech' && n.attribute('nospeaker').nil?
         speech_id = n.attribute('id').value.split("/").last
