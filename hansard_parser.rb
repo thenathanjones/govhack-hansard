@@ -1,23 +1,27 @@
 module HansardParser
+  require 'timeliness'
   require 'nokogiri'
 
   def parse filename
-
     f = File.open(filename)
     doc = Nokogiri::XML(f)
     f.close
 
-    speeches = []
+    date = Timeliness.parse(filename[/([\d-]*)\.xml/, 1])
+    debates = []
+    debate = { :speeches => [] }
 
-    date = doc.xpath('.//date').text
-    speech_nodes = doc.search('.//speech')
-    speech_nodes.map do |s|
-      name = s.xpath('.//talker//name').text
-      party = s.xpath('.//talker//party').text
-      electorate = s.xpath('.//talker//electorate').text
-      body = s.xpath('./talk.text//p/span[@class="HPS-Normal" and not(*)]').inject('') { |result, t| result + t.text.strip + ' ' }
-      {:date => date, :name => name, :party => party, :electorate => electorate, :body => body }
+    doc.root.children.each do |n|
+
+      if n.name == 'major-heading'
+        unless debate[:speeches].empty?
+          debates << debate
+          debate = { :date => date, :speeches => [] }
+        end
+      elsif n.name == 'speech' && n.attribute('nospeaker').nil?
+        debate[:speeches] << { :speaker_name => n.attribute('speakername').value, :speaker_id => n.attribute('speakerid').value, :body => n.text.strip }
+      end
     end
+    debates
   end
 end
-
