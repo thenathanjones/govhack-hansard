@@ -9,6 +9,7 @@ GEM
       debugger-ruby_core_source (~> 1.2.1)
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.2.2)
+    fastercsv (1.5.5)
     httpclient (2.3.3)
     json (1.8.0)
     linguistics (2.0.2)
@@ -53,10 +54,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  fastercsv
   linguistics
   neography
   nokogiri
   openaustralia
   pry-debugger
+  rake
   sinatra
   timeliness
