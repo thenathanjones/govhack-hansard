@@ -21,6 +21,7 @@
 /public/system
 
 /neo4j
+/data
 
 .DS_Store
 build/
