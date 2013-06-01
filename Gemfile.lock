@@ -23,6 +23,7 @@ GEM
       os (>= 0.9.6)
       rake (>= 0.8.7)
       rubyzip (>= 0.9.7)
+    nokogiri (1.5.9)
     openaustralia (1.0.0)
       rake
       xml-mapping
@@ -54,6 +55,7 @@ PLATFORMS
 DEPENDENCIES
   linguistics
   neography
+  nokogiri
   openaustralia
   pry-debugger
   sinatra
