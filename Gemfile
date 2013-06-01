@@ -1,11 +1,13 @@
-# A sample Gemfile
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-# gem "rails"
-gem 'rake'
+gem "middleman", "~> 3.0.14"
+gem 'rack-contrib'
+
+# Compass plugins
+gem 'susy', "~> 1.0.8" # Susy
+gem 'compass-h5bp', "~> 0.1.1" # HTML5 Boilerplate styles
+
 gem 'neography'
-gem 'fastercsv'
-gem 'sinatra'
 gem 'openaustralia'
 gem 'linguistics'
 gem 'timeliness'

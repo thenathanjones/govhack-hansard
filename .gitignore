@@ -21,3 +21,7 @@
 /public/system
 
 /neo4j
+
+.DS_Store
+build/
+.sass-cache
