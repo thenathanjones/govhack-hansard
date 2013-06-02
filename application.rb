@@ -14,3 +14,10 @@ get '/api/representatives' do
   representatives = @neo.execute_query("START reps=node:representatives('*:*') RETURN reps")['data'].map { |r| r.last['data'] }
   representatives.to_json
 end
+
+get '/api/representatives/:id/speeches' do
+  @neo = Neography::Rest.new
+
+  speeches = @neo.execute_query("START member=node:representatives(member_id='#{params[:id]}') MATCH (speeches)-[:delivered_by]->(member) RETURN speeches")['data'].map { |r| r.last['data'] }
+  speeches.to_json
+end

@@ -11,7 +11,7 @@ include HansardParser
 @neo.create_node_index :speeches
 
 def parse_debate debate
-  # timestamp = Timeliness.parse(debate[:date]).to_time.to_i
+  # timestamp = debate[:date].to_time.to_i
   timestamp = 1234
 
   debate_node = @neo.create_node(:debate_id => debate[:debate_id], :title => debate[:title], :date => timestamp)
