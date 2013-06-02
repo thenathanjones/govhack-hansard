@@ -16,7 +16,8 @@ def parse_debate debate
 
   debate_node = @neo.create_node(:debate_id => debate[:debate_id], :title => debate[:title], :date => timestamp)
   @neo.add_node_to_index :debates, :debate_id, debate[:debate_id], debate_node
-  @neo.add_node_to_index :debates, :is_processed, false, debate_node
+  @neo.add_node_to_index :debates, :is_categorised, false, debate_node
+  @neo.add_node_to_index :debates, :is_conceptised, false, debate_node
 
   debate[:speeches].each do |speech|
     member_node = @neo.find_node_index(:representatives, :member_id, speech[:speaker_id])

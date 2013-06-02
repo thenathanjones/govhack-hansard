@@ -33,10 +33,10 @@ def add_categories debate, categories
     rel = @neo.create_relationship(:belongs_to, debate, category_node)
     @neo.set_relationship_properties(rel, {:weight => category['weight']})
   end
-  @neo.remove_node_from_index :debates, :is_processed, debate
+  @neo.remove_node_from_index :debates, :is_categorised, debate
 end
 
-unprocessed_nodes = @neo.find_node_index(:debates, :is_processed, 'false')
+unprocessed_nodes = @neo.find_node_index(:debates, :is_categorised, 'false')
 
 unprocessed_nodes.each do |debate|
   puts "Processing [#{debate['data']['debate_id']}] — #{debate['data']['title']}"
