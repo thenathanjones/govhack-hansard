@@ -36,6 +36,7 @@ def parse_debate debate
 end
 
 Dir.glob('./data/*.xml') do |hansard_file|
+  puts "Processing #{hansard_file}"
   debates = parse hansard_file
   debates.each { |d| parse_debate d }
 end
