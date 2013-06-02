@@ -2,6 +2,11 @@ require 'rubygems'
 require 'sinatra'
 require 'json' 
 require 'neography'
+require 'sinatra/cross_origin'
+
+configure do
+  enable :cross_origin
+end
 
 get '/api/representatives' do
   @neo = Neography::Rest.new
