@@ -7,7 +7,7 @@ module HansardParser
     doc = Nokogiri::XML(f)
     f.close
 
-    date = Timeliness.parse(filename[/([\d-]*)\.xml/, 1])
+    date = Timeliness.parse(filename[/([\d-]*)\.xml/, 1], :format => 'yyyy-mm-dd')
     debates = []
     debate = { :speeches => [] }
 
