@@ -36,6 +36,24 @@ def add_categories debate, categories
   @neo.remove_node_from_index :debates, :is_categorised, debate
 end
 
+def find_or_create_concept_node(concept)
+  concept_node = @neo.find_node_index(:concepts, :label, concept['label'])
+  if concept_node.nil?
+    concept_node = @neo.create_node(:label => concept['label'])
+    @neo.add_node_to_index :concepts, :label, concept['label'], concept_node
+  end
+  concept_node
+end
+
+def add_concepts debate, concepts
+  concepts.each do |concept|
+    concept_node = find_or_create_concept_node(concept)
+    rel = @neo.create_relationship(:relates_to_concept, debate, concept_node)
+    @neo.set_relationship_properties(rel, {:weight => concept['weight']})
+  end
+  @neo.remove_node_from_index :debates, :is_conceptised, debate
+end
+
 uncategorised = @neo.find_node_index(:debates, :is_categorised, 'false')
 uncategorised.each do |debate|
   puts "Processing [#{debate['data']['debate_id']}] — #{debate['data']['title']}"
@@ -51,5 +69,23 @@ uncategorised.each do |debate|
     add_categories(debate, categories)
     c = categories.map { |c| c['label'] }
     puts "  #{c.size} categor#{c.size==1 ? 'y' : 'ies'}: #{c.join(', ')}"
+  end
+end
+
+unconceptised = @neo.find_node_index(:debates, :is_conceptised, 'false')
+unconceptised.each do |debate|
+  puts "Processing [#{debate['data']['debate_id']}] — #{debate['data']['title']}"
+
+  speech_rels = @neo.get_node_relationships(debate, "in", "part_of")
+
+  if speech_rels
+    debate_text_body = merge_speech_bodies(speech_rels)
+
+    puts "  #{speech_rels.size} speeches merged. Conceptising ... "
+
+    concepts = konseptise(debate_text_body)
+    add_concepts(debate, concepts)
+    c = concepts.map { |c| c['label'] }
+    puts "  #{c.size} concept#{c.size==1 ? '' : 's'}: #{c.join(', ')}"
   end
 end
