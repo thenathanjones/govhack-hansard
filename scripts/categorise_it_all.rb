@@ -42,12 +42,15 @@ unprocessed_nodes.each do |debate|
   puts "Processing [#{debate['data']['debate_id']}] — #{debate['data']['title']}"
 
   speech_rels = @neo.get_node_relationships(debate, "in", "part_of")
-  debate_text_body = merge_speech_bodies(speech_rels)
-  puts "  #{speech_rels.size} speeches merged. Categorising ... "
 
-  categories = kategorise(debate_text_body)
-  add_categories(debate, categories)
-  c = categories.map { |c| c['label']}
-  puts "  #{c.size} categor#{c.size==1?'y':'ies'}: #{c.join(', ')}"
-  #add_concepts(debate, konseptise(debate_text_body))
+  if speech_rels
+    debate_text_body = merge_speech_bodies(speech_rels)
+    puts "  #{speech_rels.size} speeches merged. Categorising ... "
+
+    categories = kategorise(debate_text_body)
+    add_categories(debate, categories)
+    c = categories.map { |c| c['label']}
+    puts "  #{c.size} categor#{c.size==1?'y':'ies'}: #{c.join(', ')}"
+    #add_concepts(debate, konseptise(debate_text_body))
+  end
 end
