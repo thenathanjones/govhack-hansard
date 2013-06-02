@@ -1,6 +1,7 @@
 module HansardParser
   require 'timeliness'
   require 'nokogiri'
+  require 'pry'
 
   def parse filename
     f = File.open(filename)
@@ -16,9 +17,9 @@ module HansardParser
       if n.name == 'minor-heading'
         unless debate[:speeches].empty?
           debates << debate
-          debate_id = n.attribute('id').value.split("/").last
-          debate = { :debate_id => debate_id, :title => n.text.strip, :date => date, :speeches => [] }
         end
+        debate_id = n.attribute('id').value.split("/").last
+        debate = { :debate_id => debate_id, :title => n.text.strip, :date => date, :speeches => [] }
       elsif n.name == 'speech' && n.attribute('nospeaker').nil?
         speech_id = n.attribute('id').value.split("/").last
         speaker_id = n.attribute('speakerid').value.split("/").last

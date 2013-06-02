@@ -25,7 +25,7 @@ module NaughtyThingsParser
 
     warning_nodes = doc.xpath('.//*[contains(text(), "I name the member for ")]')
     warning_nodes.each do |w|
-      member_for = w.text[/I name the member for (\w*)/, 1]
+      member_for = w.text[/I name the member for (\w-'*)/, 1]
       naughty_things[:warnings] << { :date => date, :warned_member_for => member_for }
     end
 
